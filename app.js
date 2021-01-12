@@ -3,7 +3,8 @@ const http = require("http");
 const path = require('path');
 const socketIo = require("socket.io");
 
-const port = process.env.PORT || 4001;
+const isProduction = process.env.NODE_ENV === 'production'
+const port =  isProduction ? 19073 : 4001;
 // const index = require("./routes/index");
 
 
@@ -30,6 +31,8 @@ router.get("/", (req, res) => {
     console.log("HAHA");
     res.send({ response: "I am alive" }).status(200);
 });
+
+const origins = isProduction ? `https://nodemulticlicker.herokuapp.com` : `localhost:* http://localhost:* http://www.localhost:*`
 
 const io = socketIo(server, {origins:`localhost:* http://localhost:* http://www.localhost:*`});
 
